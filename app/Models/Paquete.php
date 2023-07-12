@@ -10,5 +10,6 @@ class Paquete extends Model
     use HasFactory;
     protected $table = "paquete";
     public $timestamps = false;
+    aaaa
 }
 
