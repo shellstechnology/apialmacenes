@@ -7,5 +7,11 @@
 </head>
 <body>
     olamundo
+    @foreach ($Paquetes as $paquetito)
+    {{ $paquetito -> id }} <br />
+    Nombre: {{ $paquetito-> nombre }} <br />
+    Peso: {{ $paquetito -> peso_Kg }} <br /><br />
+    @endforeach
+
 </body>
 </html>

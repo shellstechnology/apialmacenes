@@ -8,6 +8,14 @@ use Illuminate\Http\Request;
 
 class PaqueteController extends Controller
 {
+
+        public function mostrarPaquetes(Request $Request){
+            $Paquetes = Paquete::all();
+            return view("almacen", ["Paquetes" => $Paquetes]);
+        }
+     
+
+
     /**
      * Display a listing of the resource.
      *
