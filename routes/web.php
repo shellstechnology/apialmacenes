@@ -17,4 +17,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/ListaPaquetes', [PaqueteController::class, "mostrarPaquetes"]);
+
+Route::get('/IngresarPaquete', function () {
+    return view('ingresarPaquete');
+});
+Route::get('/ListaPaquetes', [PaqueteController::class, "MostrarTodosLosPaquetes"]);
+
+
+Route::post('/IngresarUnPaquete', [PaqueteController::class, "IngresarUnPaquete"]);

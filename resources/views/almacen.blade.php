@@ -10,7 +10,7 @@
     @foreach ($Paquetes as $paquetito)
     {{ $paquetito -> id }} <br />
     Nombre: {{ $paquetito-> nombre }} <br />
-    Peso: {{ $paquetito -> peso_Kg }} <br /><br />
+    Peso: {{ $paquetito -> peso_kg }} <br /><br />
     @endforeach
 
 </body>
