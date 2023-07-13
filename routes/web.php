@@ -21,7 +21,16 @@ Route::get('/', function () {
 Route::get('/IngresarPaquete', function () {
     return view('ingresarPaquete');
 });
+
+Route::get('/BuscarPaquete', function () {
+    return view('buscarPaquete');
+});
+
 Route::get('/ListaPaquetes', [PaqueteController::class, "MostrarTodosLosPaquetes"]);
 
+route::get('/MostrarPaquete', [PaqueteController::class, "MostrarMiPaquete"]);
 
 Route::post('/IngresarUnPaquete', [PaqueteController::class, "IngresarUnPaquete"]);
+
+
+Route::delete("/eliminar/{d}",[PaqueteController::class,"Eliminar"]);

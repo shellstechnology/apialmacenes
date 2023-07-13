@@ -16,7 +16,7 @@
     peso en kilogramos <input type="number" name="pesoEnKg" id=""> <br>
     Tipo de paquete <input type="number" name="tipoDePaquete" id=""> <br>
     nombre del destinatario<input type="text" name="nombreDelDestinatario" id=""> <br>
-    nombre del remitente <input type="text" name="nombreDelRemitente" id=""> <br>
+    nombre del remitente   <input type="text" name="nombreDelRemitente" id=""> <br>
     fecha de entrega <input type="date" name="fechaDeEntrega" id=""> <br>
     <input type="submit" value="Enviar">
 
