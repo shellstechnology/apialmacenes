@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Paquete extends Model
 {
-
+    use SoftDeletes;
     use HasFactory;
     protected $table = "paquete";
-    public $timestamps = false;
+    public $timestamps = true;
     
 }
 
