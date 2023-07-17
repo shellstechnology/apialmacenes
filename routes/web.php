@@ -26,9 +26,20 @@ Route::get('/BuscarPaquete', function () {
     return view('buscarPaquete');
 });
 
+Route::get('/almacen', function(){
+    return view ('almacen');
+});
+
+Route::get('/Paquetes', function () {
+    $response = Http::post('localhost:8000/api/ListaPaquetes'); // Replace with your API endpoint
+    $Paquetes = $response->json();
+    
+    return view('almacen', ['paquete' => $Paquetes]);
+});
+
 Route::get('/ListaPaquetes', [PaqueteController::class, "MostrarTodosLosPaquetes"]);
 
-route::get('/MostrarPaquete', [PaqueteController::class, "MostrarMiPaquete"]);
+route::get('/MostrarPaquete/{d}', [PaqueteController::class, "MostrarMiPaquete"]);
 
 Route::post('/IngresarUnPaquete', [PaqueteController::class, "IngresarUnPaquete"]);
 

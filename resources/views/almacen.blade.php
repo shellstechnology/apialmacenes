@@ -27,7 +27,7 @@
                 Fecha Modificación
             </td>
         </tr>
-
+      
         @foreach($Paquetes as $p)
             <tr>
                 <td>

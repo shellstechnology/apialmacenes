@@ -10,15 +10,12 @@ class PaqueteController extends Controller
 {
 
         public function MostrarTodosLosPaquetes(Request $Request){
-            $Paquetes = Paquete::all();
-            return view("almacen", ["Paquetes" => $Paquetes]);
+         return Paquete::all();
         }
      
 
-        public function MostrarMiPaquete(Request $request){
-            $idPaquete = $request -> get("idPaquete");
-            $MiPaquete = Paquete::findOrFail($idPaquete);
-            return view("MostrarMiPaquete", ["MiPaquete" => $MiPaquete]);
+        public function MostrarMiPaquete(Request $request, $idPaquete){
+            return Paquete::findOrFail($idPaquete);
     
         }
       
@@ -57,4 +54,10 @@ class PaqueteController extends Controller
     
         }
 
+        public function restore($id)
+        {
+            Paquete::withTrashed()->find($id)->restore();
+      
+            return back();
+        }  
     }

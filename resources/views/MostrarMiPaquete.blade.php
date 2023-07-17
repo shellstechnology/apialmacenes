@@ -16,9 +16,9 @@
 
 {{ $MiPaquete -> nombre_del_destinatario }}
             
-         
+{{ $MiPaquete -> peso_kg }}      
 
-
+<br>{{ $MiPaquete}}
 
 </body>
 </html>

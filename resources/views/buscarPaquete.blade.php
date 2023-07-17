@@ -7,7 +7,7 @@
 </head>
 <body>
 <form action="/MostrarPaquete" method="get">
-    @csrf 
+    
     Id del paquete <input type="number" name="idPaquete">
                     <input type="submit" value="Enviar">
     </form>
