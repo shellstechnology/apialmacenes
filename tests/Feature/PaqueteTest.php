@@ -42,7 +42,7 @@ class PaqueteTest extends TestCase
 
      public function test_ListarUnoQueNoExiste()
      {
-         $response = $this->get('/MostrarPaquete?idPaquete=99999999999999');
+         $response = $this->get('/MostrarPaquete/99999999999999');
          $response->assertStatus(404); // Valida el status HTTP de la peticion
      }
      
@@ -67,5 +67,36 @@ class PaqueteTest extends TestCase
  
      }
 
+     public function test_ModificarUnPaqueteQueExiste(){
+        $estructura = [
+            "id",
+            "nombre",
+            "estado",
+            "volumen_l",
+            "peso_kg",
+            "tipo_paquete",
+            "nombre_del_destinatario",
+            "nombre_del_remitente",
+            "fecha_de_entrega",
+            "created_at",
+            "updated_at",
+            "deleted_at"];
+
+            $response = $this->put('/Modificar/47', [
+                "nombre" => "Queso modificado, que loco",
+                "estado" => "1",
+                "volumen_l" => "40",
+                "peso_kg" => "90",
+                "tipo_paquete" => "1",
+                "nombre_del_destinatario" =>"Puppycachi",
+                "nombre_del_remitente" => "Bee",
+                "fecha_de_entrega"=> "2001-07-04"
+            ]);
+            $response->assertStatus(200);
+            $response->assertJsonStructure($estructura); // Valida que la estructura de JSON tenga los campos especificados en el array
+            $response->assertJsonFragment(["nombre" => "Queso modificado, que loco",
+            "nombre_del_destinatario" =>"Puppycachi"
+        ]);
+     }
 
     }

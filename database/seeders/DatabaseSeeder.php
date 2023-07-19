@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         \App\Models\Paquete::factory(10) -> create();
+        \App\Models\Lote::factory(10) -> create();
         \App\Models\Paquete::factory(1) -> create([
             "id" => "47",
             "nombre" => "quesos cremosos",

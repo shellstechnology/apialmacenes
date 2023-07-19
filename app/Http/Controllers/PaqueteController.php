@@ -54,6 +54,23 @@ class PaqueteController extends Controller
     
         }
 
+        public function Modificar(Request $request, $idPaquete){
+            $Paquete = Paquete::findOrFail($idPaquete);
+            $Paquete -> nombre = $request -> post("nombre");
+            $Paquete -> estado = $request -> post("estado");
+            $Paquete -> volumen_l = $request -> post("volumen_l");
+            $Paquete -> peso_kg = $request -> post("peso_kg");
+            $Paquete -> tipo_Paquete = $request -> post("tipo_paquete");
+            $Paquete -> nombre_del_destinatario = $request -> post("nombre_del_destinatario");
+            $Paquete -> nombre_del_remitente = $request -> post("nombre_del_remitente");
+            $Paquete -> fecha_de_entrega = $request -> post("fecha_de_entrega");
+    
+            $Paquete -> save();
+    
+            return $Paquete;
+    
+        }
+
         public function restore($id)
         {
             Paquete::withTrashed()->find($id)->restore();

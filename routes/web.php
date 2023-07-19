@@ -22,9 +22,7 @@ Route::get('/IngresarPaquete', function () {
     return view('ingresarPaquete');
 });
 
-Route::get('/BuscarPaquete', function () {
-    return view('buscarPaquete');
-});
+
 
 Route::get('/almacen', function(){
     return view ('almacen');
@@ -43,5 +41,6 @@ route::get('/MostrarPaquete/{d}', [PaqueteController::class, "MostrarMiPaquete"]
 
 Route::post('/IngresarUnPaquete', [PaqueteController::class, "IngresarUnPaquete"]);
 
+Route::put("/Modificar/{d}", [PaqueteController::class, "Modificar"]);
 
 Route::delete("/eliminar/{d}",[PaqueteController::class,"Eliminar"]);

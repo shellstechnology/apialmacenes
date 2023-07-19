@@ -8,79 +8,49 @@ use Illuminate\Http\Request;
 
 class LoteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+    public function MostrarTodosLosLotes(Request $Request){
+        return Lote::all();
+       }
+    
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+       public function MostrarUnLote(Request $request, $idLote){
+           return Lote::findOrFail($idLote);
+   
+       }
+     
+       public function IngresarUnLote(Request $request){
+           $Lote
+            = new Lote;
+           if($request -> post("id")== null || 
+           $request -> post("id_paquete")== null  
+       
+             )
+               return abort(403);
+           $Lote -> id = $request -> post("id");
+           $Lote -> id_paquete = $request -> post("id_paquete");
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+           $Paquete -> save();
+   
+           return $Paquete;
+       }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Lote  $lote
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Lote $lote)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Lote  $lote
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Lote $lote)
-    {
-        //
-    }
+       public function Eliminar(Request $request, $idLote){
+           $Lote = Lote::findOrFail($idLote);
+           $Lote -> delete();
+   
+           return [ "mensaje" => "Lote $idLote eliminado."];
+   
+       }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Lote  $lote
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Lote $lote)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Lote  $lote
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Lote $lote)
-    {
-        //
-    }
+       public function Modificar(Request $request, $idLote){
+           $Lote = Paquete::findOrFail($idLote);
+           $Lote -> id = $request -> post("id");
+           $Lote -> id_paquete = $request -> post("id_paquete");
+    
+           $Lote -> save();
+   
+           return $Lote;
+   
+       }
 }
