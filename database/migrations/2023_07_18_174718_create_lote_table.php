@@ -14,9 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('lote', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('id_paquete');
-            $table->foreign('id_paquete')->references('id')->on('paquete');
+            $table->unsignedBigInteger('id');
+            $table->unsignedBigInteger('lote_id_paquete');
+            $table->foreign('lote_id_paquete')->references('id')->on('paquete');
             $table->timestamps();
             $table->softdeletes();
         });

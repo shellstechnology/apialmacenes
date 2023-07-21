@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaqueteController;
+use App\Http\Controllers\LoteController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,7 +30,7 @@ Route::get('/almacen', function(){
 });
 
 Route::get('/Paquetes', function () {
-    $response = Http::post('localhost:8000/api/ListaPaquetes'); // Replace with your API endpoint
+    $response = Http::post('localhost:8000/api/ListaPaquetes'); // Esto es un intento de mostrar en una vista, no funca 
     $Paquetes = $response->json();
     
     return view('almacen', ['paquete' => $Paquetes]);
@@ -44,3 +45,11 @@ Route::post('/IngresarUnPaquete', [PaqueteController::class, "IngresarUnPaquete"
 Route::put("/Modificar/{d}", [PaqueteController::class, "Modificar"]);
 
 Route::delete("/eliminar/{d}",[PaqueteController::class,"Eliminar"]);
+
+Route::get('/ListarLotes', [LoteController::class, "MostrarTodosLosLotes"]);
+
+Route::get('IngresarLote', [LoteController::class, "IngresarUnLote"]);
+
+Route::get('/MostrarLote/{d}', [LoteController::class, "MostrarUnLote"]); 
+
+Route::delete('/EliminarLote/{d}', [LoteController::class, "Eliminar"]);
