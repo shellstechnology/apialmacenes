@@ -14,6 +14,6 @@ class Lote extends Model
     use HasFactory;
     protected $table = "lote";
     public $timestamps = true;
-    protected $primaryKey = 'id_paquete';
+    protected $primaryKey = 'lote_id_paquete';
     public $incrementing = false;
 }

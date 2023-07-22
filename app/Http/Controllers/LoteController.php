@@ -40,12 +40,12 @@ class LoteController extends Controller
             $l -> delete();
           }
    
-           return [ "mensaje" => "Lote $idLote eliminado."];
+           return [ "mensaje" => "Lote $id eliminado."];
    
        }
 
        public function Modificar(Request $request, $id){
-           $Lote = Lote::where('id', '=', $id)->get();
+           $Lote = Lote::where('lote_id_paquete', '=', $id)->get();
       
         foreach($Lote as $l){
             $l -> id = $request -> post("id");

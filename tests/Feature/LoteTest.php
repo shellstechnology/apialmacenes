@@ -26,38 +26,38 @@ class LoteTest extends TestCase
             ]); 
      }
 
-     public function test_EliminarUnLoteQueExiste()
-     {
-         $response = $this->delete('/EliminarLote/47');
-         $response->assertStatus(200);
-         $response->assertJsonFragment(["mensaje" => "Lote 47 eliminado."]); 
-         $this->assertDatabaseMissing("Lote",[
-             "id" => 47,
-             "deleted_at" => null
-         ]);
- 
-         Lote::withTrashed()->where("id",47)->restore();
-
- 
-     }
-   
+     
      public function test_ModificarUnLoteQueExiste(){
-        $estructura = [
-            "id",
-            "lote_id_paquete",
-            "created_at",
-            "updated_at",
-            "deleted_at"];
-
-            $response = $this->put('/ModificarLote/47', [
-                "id" => "99",
-                "lote_id_paquete" => "1"
-           
+         $estructura = [
+             "id",
+             "lote_id_paquete",
+             "created_at",
+             "updated_at",
+             "deleted_at"];
+             
+             $response = $this->put('/ModificarLote/47', [
+                 "id" => "99",
+                 "lote_id_paquete" => "1"
+                 
+                ]);
+                $response->assertStatus(200);
+                $response->assertJsonStructure($estructura); 
+                $response->assertJsonFragment(["id" => "99",
+                "lote_id_paquete" =>"1"
             ]);
+        }
+        public function test_EliminarUnLoteQueExiste()
+        {
+            $response = $this->delete('/EliminarLote/99');
             $response->assertStatus(200);
-            $response->assertJsonStructure($estructura); 
-            $response->assertJsonFragment(["id" => "99",
-            "lote_id_paquete" =>"1"
-        ]);
-     }
-}
+            $response->assertJsonFragment(["mensaje" => "Lote 99 eliminado."]); 
+            $this->assertDatabaseMissing("Lote",[
+                "id" => 99,
+                "deleted_at" => null
+            ]);
+    
+    
+    
+    
+        }
+    }
