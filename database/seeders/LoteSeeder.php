@@ -14,6 +14,9 @@ class LoteSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Lote::factory(10) -> create();
+        \App\Models\Lote::factory(9) -> create();
+        \App\Models\Lote::factory(1) -> create([
+            "id" => "47",
+            "lote_id_paquete" => "47"]);
     }
 }

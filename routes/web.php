@@ -53,3 +53,5 @@ Route::get('IngresarLote', [LoteController::class, "IngresarUnLote"]);
 Route::get('/MostrarLote/{d}', [LoteController::class, "MostrarUnLote"]); 
 
 Route::delete('/EliminarLote/{d}', [LoteController::class, "Eliminar"]);
+
+Route::put('/ModificarLote/{d}', [LoteController::class, "Modificar"]);
