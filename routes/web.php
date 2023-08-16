@@ -29,29 +29,5 @@ Route::get('/almacen', function(){
     return view ('almacen');
 });
 
-Route::get('/Paquetes', function () {
-    $response = Http::post('localhost:8000/api/ListaPaquetes'); // Esto es un intento de mostrar en una vista, no funca 
-    $Paquetes = $response->json();
-    
-    return view('almacen', ['paquete' => $Paquetes]);
-});
 
-Route::get('/ListaPaquetes', [PaqueteController::class, "MostrarTodosLosPaquetes"]);
 
-route::get('/MostrarPaquete/{d}', [PaqueteController::class, "MostrarMiPaquete"]);
-
-Route::post('/IngresarUnPaquete', [PaqueteController::class, "IngresarUnPaquete"]);
-
-Route::put("/Modificar/{d}", [PaqueteController::class, "Modificar"]);
-
-Route::delete("/eliminar/{d}",[PaqueteController::class,"Eliminar"]);
-
-Route::get('/ListarLotes', [LoteController::class, "MostrarTodosLosLotes"]);
-
-Route::get('IngresarLote', [LoteController::class, "IngresarUnLote"]);
-
-Route::get('/MostrarLote/{d}', [LoteController::class, "MostrarUnLote"]); 
-
-Route::delete('/EliminarLote/{d}', [LoteController::class, "Eliminar"]);
-
-Route::put('/ModificarLote/{d}', [LoteController::class, "Modificar"]);

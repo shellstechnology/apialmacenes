@@ -12,7 +12,7 @@ class Lote extends Model
 {
     use SoftDeletes;
     use HasFactory;
-    protected $table = "lote";
+    protected $table = "paquete_contiene_lote";
     public $timestamps = true;
     protected $primaryKey = 'lote_id_paquete';
     public $incrementing = false;

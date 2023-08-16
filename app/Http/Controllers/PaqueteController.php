@@ -21,23 +21,17 @@ class PaqueteController extends Controller
       
         public function IngresarUnPaquete(Request $request){
             $Paquete = new Paquete;
-            if($request -> post("nombre")== null || 
-            $request -> post("estado")== null  ||
-            $request -> post("volumenEnL")== null ||
-            $request -> post("pesoEnKg")== null ||
-            $request -> post("tipoDePaquete")== null ||
-            $request -> post("nombreDelDestinatario")== null ||
-            $request -> post("nombreDelRemitente")== null ||
-            $request -> post("fechaDeEntrega")== null 
-              )
-                return abort(403);
+        
+
             $Paquete -> nombre = $request -> post("nombre");
-            $Paquete -> estado = $request -> post("estado");
             $Paquete -> volumen_l = $request -> post("volumenEnL");
             $Paquete -> peso_kg = $request -> post("pesoEnKg");
-            $Paquete -> tipo_Paquete = $request -> post("tipoDePaquete");
-            $Paquete -> nombre_del_destinatario = $request -> post("nombreDelDestinatario");
-            $Paquete -> nombre_del_remitente = $request -> post("nombreDelRemitente");
+            $Paquete -> id_estado_p = $request -> post("estado");
+            $Paquete -> id_caracteristica_paquete = $request -> post("tipoDePaquete");
+            $Paquete -> id_producto = $request -> post("idProducto");
+            $Paquete -> id_lugar_entrega = $request -> post("idLugarEntrega");
+            $Paquete -> nombre_destinatario = $request -> post("nombreDelDestinatario");
+            $Paquete -> nombre_remitente = $request -> post("nombreDelRemitente");
             $Paquete -> fecha_de_entrega = $request -> post("fechaDeEntrega");
     
             $Paquete -> save();
@@ -57,12 +51,14 @@ class PaqueteController extends Controller
         public function Modificar(Request $request, $idPaquete){
             $Paquete = Paquete::findOrFail($idPaquete);
             $Paquete -> nombre = $request -> post("nombre");
-            $Paquete -> estado = $request -> post("estado");
             $Paquete -> volumen_l = $request -> post("volumen_l");
             $Paquete -> peso_kg = $request -> post("peso_kg");
-            $Paquete -> tipo_Paquete = $request -> post("tipo_paquete");
-            $Paquete -> nombre_del_destinatario = $request -> post("nombre_del_destinatario");
-            $Paquete -> nombre_del_remitente = $request -> post("nombre_del_remitente");
+            $Paquete -> id_estado_p = $request -> post("id_estado_p");
+            $Paquete -> id_caracteristica_paquete = $request -> post("id_caracteristica_paquete");
+            $Paquete -> id_producto = $request -> post("id_producto");
+            $Paquete -> id_lugar_entrega = $request -> post("id_lugar_entrega");
+            $Paquete -> nombre_destinatario = $request -> post("nombre_destinatario");
+            $Paquete -> nombre_remitente = $request -> post("nombre_remitente");
             $Paquete -> fecha_de_entrega = $request -> post("fecha_de_entrega");
     
             $Paquete -> save();

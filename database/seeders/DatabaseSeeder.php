@@ -18,10 +18,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Paquete::factory(10) -> create();
-        \App\Models\Paquete::factory(1) -> create([
-            "id" => "47",
-            "nombre" => "quesos cremosos",
-            "nombre_del_remitente" => "vegetta777"]);
+        \App\Models\Paquete::factory(4) -> create();
+        \App\Models\Lote::factory(9) -> create();
     }
 }

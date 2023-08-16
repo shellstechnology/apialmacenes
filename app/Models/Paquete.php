@@ -10,7 +10,7 @@ class Paquete extends Model
 {
     use SoftDeletes;
     use HasFactory;
-    protected $table = "paquete";
+    protected $table = "paquetes";
     public $timestamps = true;
     
 }
