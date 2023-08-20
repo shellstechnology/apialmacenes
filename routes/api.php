@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaqueteController;
+use App\Http\Controllers\LoteController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,19 +19,19 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/paquetes', [PaqueteController::class, "MostrarTodosLosPaquetes"]);
+Route::get('/paquete', [PaqueteController::class, "MostrarTodosLosPaquetes"]);
 
 route::get('/paquete/{d}', [PaqueteController::class, "MostrarMiPaquete"]);
 
-Route::post('/ingresarpaquete', [PaqueteController::class, "IngresarUnPaquete"]);
+Route::post('/paquete', [PaqueteController::class, "IngresarUnPaquete"]);
 
 Route::put("/paquete/{d}", [PaqueteController::class, "Modificar"]);
 
 Route::delete("/paquete/{d}",[PaqueteController::class,"Eliminar"]);
 
-Route::get('/lotes', [LoteController::class, "MostrarTodosLosLotes"]);
+Route::get('/lote', [LoteController::class, "MostrarTodosLosLotes"]);
 
-Route::get('ingresarlote', [LoteController::class, "IngresarUnLote"]);
+Route::post('/lote', [LoteController::class, "IngresarUnLote"]);
 
 Route::get('/lote/{d}', [LoteController::class, "MostrarUnLote"]); 
 

@@ -14,19 +14,19 @@ class LoteController extends Controller
     
 
        public function MostrarUnLote(Request $request, $id){
-       return Lote::where('id', '=', $id)->get();
+       return Lote::where('id_lote', '=', $id)->get();
     
        }
      
        public function IngresarUnLote(Request $request){
            $Lote = new Lote;
-           if($request -> post("id")== null || 
-           $request -> post("lote_id_paquete")== null  
+           if($request -> post("id_lote")== null || 
+           $request -> post("id_paquete")== null  
        
              )
                return abort(403);
-           $Lote -> id = $request -> post("id");
-           $Lote -> lote_id_paquete = $request -> post("lote_id_paquete");
+           $Lote -> id = $request -> post("id_lote");
+           $Lote -> lote_id_paquete = $request -> post("id_paquete");
 
            $Lote -> save();
    
@@ -35,7 +35,7 @@ class LoteController extends Controller
 
 
        public function Eliminar(Request $request, $id){
-           $Lote = Lote::where('id', '=', $id)->get();
+           $Lote = Lote::where('id_lote', '=', $id)->get();
           foreach ($Lote as $l){
             $l -> delete();
           }
@@ -45,11 +45,11 @@ class LoteController extends Controller
        }
 
        public function Modificar(Request $request, $id){
-           $Lote = Lote::where('lote_id_paquete', '=', $id)->get();
+           $Lote = Lote::where('id_paquete', '=', $id)->get();
       
         foreach($Lote as $l){
-            $l -> id = $request -> post("id");
-            $l -> lote_id_paquete = $request -> post("lote_id_paquete");
+            $l -> id_lote = $request -> post("id_lote");
+            $l -> id_paquete = $request -> post("id_paquete");
            $l -> save();
                   }
            return $l;
