@@ -18,16 +18,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
 Route::get('/IngresarPaquete', function () {
     return view('ingresarPaquete');
 });
 
 
 
-Route::get('/almacen', function(){
-    return view ('almacen');
+Route::get('/almacen', function () {
+    return view('almacen');
 });
-
-
-
