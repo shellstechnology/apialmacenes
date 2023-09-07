@@ -37,10 +37,10 @@ class PaqueteController extends Controller
                 'nombre' => 'required|alpha|max:50|min:5',
                 'volumen_l' => 'required|numeric|max:1000|min:1',
                 'peso_kg' => 'required|numeric|max:1000|min:1',
-                'id_estado_p' => 'required|numeric|unique:estado_p',
-                'id_caracteristica_paquete' => 'required|numeric|unique:caracteristica',
+                'id_estado_p' => 'required|numeric',
+                'id_caracteristica_paquete' => 'required|numeric',
                 'id_producto' => 'required|numeric|unique:productos',
-                'id_lugar_entrega' => 'required|numeric|unique:lugar_entrega',
+                'id_lugar_entrega' => 'required|numeric',
                 'nombre_destinatario' => 'required|alpha|max:100|min:3',
                 'nombre_remitente' => 'required|alpha|max:100|min:3',
                 'fecha_de_entrega' => 'required|date'
