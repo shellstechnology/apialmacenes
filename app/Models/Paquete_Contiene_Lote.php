@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 
-
-class Lote extends Model
+class Paquete_Contiene_Lote extends Model
 {
-    protected $table = 'lotes';
-    use HasFactory;
     use SoftDeletes;
-    use ValidatesRequests;
+    use HasFactory;
+    protected $table = "paquete_contiene_lote";
     public $timestamps = true;
+    protected $primaryKey = 'id_paquete';
+    public $incrementing = false;
 }

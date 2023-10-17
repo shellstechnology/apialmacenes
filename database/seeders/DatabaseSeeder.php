@@ -18,7 +18,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Paquete::factory(4) -> create();
-        \App\Models\Lote::factory(9) -> create();
+        $this->call(MonedaSeeder::class);
+        $this->call(ProductoSeeder::class); 
+        $this->call(Descripcion_Caracteristica_PaqueteSeeder::class);
+        $this->call(Estados_PSeeder::class);
+        $this->call(Lugares_EntregaSeeder::class);
+        $this->call(PaqueteSeeder::class);
+        $this->call(LoteSeeder::class);
+        $this->call(AlmacenesSeeder::class);
+        $this->call(Paquete_Contiene_LoteSeeder::class);
     }
 }

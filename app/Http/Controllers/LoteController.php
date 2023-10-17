@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Lote;
+use App\Models\Paquete_Contiene_Lote;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -11,13 +11,13 @@ class LoteController extends Controller
 {
     public function MostrarTodosLosLotes(Request $Request)
     {
-        return Lote::all();
+        return Paquete_Contiene_Lote::all();
     }
 
 
     public function MostrarUnLote(Request $request, $id)
     {
-        return Lote::where('id_lote', '=', $id)->get();
+        return Paquete_Contiene_Lote::where('id_lote', '=', $id)->get();
     }
 
     public function ComprobarDatosLote(Request $request)
@@ -41,7 +41,7 @@ class LoteController extends Controller
 
     public function IngresarUnLote(Request $request)
     {
-        $Lote = new Lote;
+        $Lote = new Paquete_Contiene_Lote;
         if (
             $request->post("id_lote") == null ||
             $request->post("id_paquete") == null
@@ -58,7 +58,7 @@ class LoteController extends Controller
 
     public function Eliminar(Request $request, $id)
     {
-        $Lote = Lote::where('id_lote', '=', $id)->get();
+        $Lote = Paquete_Contiene_Lote::where('id_lote', '=', $id)->get();
         foreach ($Lote as $l) {
             $l->delete();
         }
@@ -68,7 +68,7 @@ class LoteController extends Controller
 
     public function Modificar(Request $request, $id)
     {
-        $Lote = Lote::where('id_paquete', '=', $id)->get();
+        $Lote = Paquete_Contiene_Lote::where('id_paquete', '=', $id)->get();
 
         foreach ($Lote as $l) {
             $l->id_lote = $request->post("id_lote");
@@ -80,7 +80,7 @@ class LoteController extends Controller
 
     public function restore($id)
     {
-        Lote::withTrashed()->find($id)->restore();
+        Paquete_Contiene_Lote::withTrashed()->find($id)->restore();
 
         return back();
     }
