@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Moneda;
 use App\Models\Paquete;
 use App\Http\Controllers\Controller;
+use App\Models\Producto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -12,7 +14,42 @@ class PaqueteController extends Controller
 
     public function MostrarTodosLosPaquetes(Request $Request)
     {
-        return Paquete::all();
+        try{
+            $datoProducto = Producto::withTrashed()->get();
+            $infoProducto = [];
+            $infoMonedas = [];
+            if ($datoProducto) {
+                foreach ($datoProducto as $dato) {
+                    $infoProducto[] = $this->obtenerProducto($dato);
+                }
+            }
+            // $infoMonedas = $this->obtenerMonedas();
+            // Session::put('monedas', $infoMonedas);
+            return $infoProducto;
+        } catch (\Exception $e){
+            $mensajeDeError = 'Error: ';
+            return $mensajeDeError;
+        }
+    }
+    private function obtenerProducto($producto)
+    {
+        try {
+            $moneda = Moneda::withTrashed()->where('id', $producto['id_moneda'])->first();
+            return ([
+                'Id' => $producto['id'],
+                'Nombre' => $producto['nombre'],
+                'Stock' => $producto['stock'],
+                'Precio' => $producto['precio'],
+                'Moneda' => $moneda['moneda'],
+                'created_at' => $producto['created_at'],
+                'updated_at' => $producto['updated_at'],
+                'deleted_at' => $producto['deleted_at']
+            ]);
+        } catch (\Exception $e){
+            $mensajeDeError = 'Error: ';
+            return $mensajeDeError;
+        }
+
     }
 
 
