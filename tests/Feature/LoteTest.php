@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use App\Models\Lote;
+use App\Models\Paquete_Contiene_Lote;
 use Tests\TestCase;
 
 
@@ -59,6 +59,6 @@ class LoteTest extends TestCase
                 "deleted_at" => null
             ]);
     
-            Lote::withTrashed()->where("id_lote",74)->restore();
+            Paquete_Contiene_Lote::withTrashed()->where("id_lote",74)->restore();
         }
     }

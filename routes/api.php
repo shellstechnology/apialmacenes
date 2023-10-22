@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaqueteController;
 use App\Http\Controllers\LoteController;
+use App\Http\Controllers\ProductoController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -38,3 +39,14 @@ Route::get('/lote/{d}', [LoteController::class, "MostrarUnLote"]);
 Route::delete('/lote/{d}', [LoteController::class, "Eliminar"]);
 
 Route::put('/lote/{d}', [LoteController::class, "Modificar"]);
+
+
+Route::get('/producto', [ProductoController::class, "MostrarTodosLosProductos"]);
+
+route::get('/producto/{d}', [ProductoController::class, "MostrarUnproducto"]);
+
+Route::post("/producto", [ProductoController::class, "ComprobarDatosProducto"]);
+
+Route::put("/producto/{d}", [ProductoController::class, "Modificar"]);
+
+Route::delete("/producto/{d}", [ProductoController::class, "Eliminar"]);
