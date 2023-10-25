@@ -2,63 +2,37 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Paquete_Contiene_Lote;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Lote;
 use Illuminate\Support\Facades\Validator;
 
 class LoteController extends Controller
 {
+
     public function MostrarTodosLosLotes(Request $Request)
     {
-        return Paquete_Contiene_Lote::all();
+        return Lote::all();
     }
 
-
-    public function MostrarUnLote(Request $request, $id)
+    public function MostrarUnLote(Request $request, $idLote)
     {
-        return Paquete_Contiene_Lote::where('id_lote', '=', $id)->get();
-    }
-
-    public function ComprobarDatosLote(Request $request)
-    {
-        $validacion = $this->validacion($request->all());
-        if ($validacion->fails())
-            return ["errors" => $validacion->errors()];
-        return $this->IngresarUnLote($request);
-    }
-
-    private function validacion($data)
-    {
-        return Validator::make(
-            $data,
-            [
-                'id_lote' => 'required|numeric|unique:lotes',
-                'id_paquete' => 'required|numeric|unique:paquetes'
-            ],
-        );
+        return Lote::findOrFail($idLote);
     }
 
     public function IngresarUnLote(Request $request)
     {
-        $Lote = new Paquete_Contiene_Lote;
-        if (
-            $request->post("id_lote") == null ||
-            $request->post("id_paquete") == null
-
-        ) return abort(403);
-        $Lote->id = $request->post("id_lote");
-        $Lote->lote_id_paquete = $request->post("id_paquete");
-
+        $Lote = new Lote;
+        $Lote->volumen_l = 0;
+        $Lote->peso_kg = 0;
         $Lote->save();
 
         return $Lote;
     }
-
-
+   
     public function Eliminar(Request $request, $id)
     {
-        $Lote = Paquete_Contiene_Lote::where('id_lote', '=', $id)->get();
+        $Lote = Lote::where('id', '=', $id)->get();
         foreach ($Lote as $l) {
             $l->delete();
         }
@@ -66,22 +40,12 @@ class LoteController extends Controller
         return ["mensaje" => "Lote $id eliminado."];
     }
 
-    public function Modificar(Request $request, $id)
+    public function Recuperar(Request $request, $id)
     {
-        $Lote = Paquete_Contiene_Lote::where('id_paquete', '=', $id)->get();
-
-        foreach ($Lote as $l) {
-            $l->id_lote = $request->post("id_lote");
-            $l->id_paquete = $request->post("id_paquete");
-            $l->save();
+        $lote = Lote::onlyTrashed()->find($id);
+        if ($lote) {
+            Lote::where('id', $id)->restore();
         }
-        return $l;
     }
-
-    public function restore($id)
-    {
-        Paquete_Contiene_Lote::withTrashed()->find($id)->restore();
-
-        return back();
-    }
+  
 }

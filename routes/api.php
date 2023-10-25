@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaqueteController;
 use App\Http\Controllers\LoteController;
+use App\Http\Controllers\Paquete_Contiene_LoteController;
 use App\Http\Controllers\ProductoController;
 /*
 |--------------------------------------------------------------------------
@@ -30,15 +31,27 @@ Route::put("/paquete/{d}", [PaqueteController::class, "Modificar"]);
 
 Route::delete("/paquete/{d}", [PaqueteController::class, "Eliminar"]);
 
+
 Route::get('/lote', [LoteController::class, "MostrarTodosLosLotes"]);
 
-Route::post('/lote', [LoteController::class, "ComprobarDatosLote"]);
+Route::post('/lote', [LoteController::class, "IngresarUnLote"]);
 
 Route::get('/lote/{d}', [LoteController::class, "MostrarUnLote"]);
 
 Route::delete('/lote/{d}', [LoteController::class, "Eliminar"]);
 
-Route::put('/lote/{d}', [LoteController::class, "Modificar"]);
+Route::put('/lote/{d}', [LoteController::class, "Recuperar"]);
+
+
+Route::get('/paquete-lote', [Paquete_Contiene_LoteController::class, "MostrarTodosLosLotes"]);
+
+Route::post('/paquete-lote', [Paquete_Contiene_LoteController::class, "ComprobarDatosLote"]);
+
+Route::get('/paquete-lote/{d}', [Paquete_Contiene_LoteController::class, "MostrarUnLote"]);
+
+Route::delete('/paquete-lote/{d}', [Paquete_Contiene_LoteController::class, "Eliminar"]);
+
+Route::put('/paquete-lote/{d}', [Paquete_Contiene_LoteController::class, "Modificar"]);
 
 
 Route::get('/producto', [ProductoController::class, "MostrarTodosLosProductos"]);
@@ -50,3 +63,5 @@ Route::post("/producto", [ProductoController::class, "ComprobarDatosProducto"]);
 Route::put("/producto/{d}", [ProductoController::class, "Modificar"]);
 
 Route::delete("/producto/{d}", [ProductoController::class, "Eliminar"]);
+
+
