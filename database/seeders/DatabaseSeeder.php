@@ -27,5 +27,15 @@ class DatabaseSeeder extends Seeder
         $this->call(LoteSeeder::class);
         $this->call(AlmacenesSeeder::class);
         $this->call(Paquete_Contiene_LoteSeeder::class);
+        $this->call(UsuariosSeeder::class);
+        $this->call(telefonos_usuariosSeeder::class);
+        $this->call(mail_usuariosSeeder::class);
+        $this->call(choferesSeeder::class);
+        $this->call(marcasSeeder::class);
+        $this->call(modelosSeeder::class);
+        $this->call(Estados_CSeeder::class);
+        $this->call(camionesSeeder::class);
+        $this->call(chofer_conduce_camionSeeder::class);
+        $this->call(Camion_Lleva_LoteSeeder::class);
     }
 }
