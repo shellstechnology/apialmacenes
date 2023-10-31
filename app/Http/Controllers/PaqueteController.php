@@ -91,8 +91,8 @@ class PaqueteController extends Controller
     public function IngresarUnPaqueteConDireccion(Request $request){
         $this -> lockTables();
         DB::beginTransaction();
-       $ultimaDireccion = $this -> IngresarDireccion($request);
-
+        $this -> IngresarDireccion($request);
+        $ultimaDireccion = Lugares_Entrega::latest('created_at')->first();
         $idUltimaDireccion = $ultimaDireccion['id'];
         $this -> IngresarUnpaquete($request,  $idUltimaDireccion);
         DB::commit();
@@ -104,9 +104,8 @@ class PaqueteController extends Controller
         $lugarEntrega->latitud = $request->post("latitud");
         $lugarEntrega->longitud = $request->post("longitud");
         $lugarEntrega->direccion = $request->post("direccion");
-        $lugarEntrega->save;
-        $soyUnmensaje = 'hola';
-        return  $soyUnmensaje;
+        $lugarEntrega->save();
+        return $lugarEntrega;
     }
 
     private function lockTables(){
