@@ -64,4 +64,8 @@ Route::put("/producto/{d}", [ProductoController::class, "Modificar"]);
 
 Route::delete("/producto/{d}", [ProductoController::class, "Eliminar"]);
 
+<<<<<<< Updated upstream
 
+=======
+Route::patch("/producto/{d}", [ProductoController::class, "restore"]);
+>>>>>>> Stashed changes

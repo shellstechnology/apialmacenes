@@ -99,9 +99,7 @@ class PaqueteController extends Controller
         $Paquete->nombre_destinatario = $request->post("nombreDelDestinatario");
         $Paquete->nombre_remitente = $request->post("nombreDelRemitente");
         $Paquete->fecha_de_entrega = $request->post("fechaDeEntrega");
-
         $Paquete->save();
-
         return $Paquete;
     }
 
@@ -127,7 +125,6 @@ class PaqueteController extends Controller
         $Paquete->nombre_destinatario = $request->post("nombre_destinatario");
         $Paquete->nombre_remitente = $request->post("nombre_remitente");
         $Paquete->fecha_de_entrega = $request->post("fecha_de_entrega");
-
         $Paquete->save();
 
         return $Paquete;
