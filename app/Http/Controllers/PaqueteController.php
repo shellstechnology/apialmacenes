@@ -6,8 +6,11 @@ use App\Models\Moneda;
 use App\Models\Paquete;
 use App\Http\Controllers\Controller;
 use App\Models\Producto;
+use App\Models\Lugares_Entrega;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class PaqueteController extends Controller
 {
@@ -76,29 +79,55 @@ class PaqueteController extends Controller
                 'peso_kg' => 'required|numeric|max:1000|min:1',
                 'id_estado_p' => 'required|numeric',
                 'id_caracteristica_paquete' => 'required|numeric',
-                'id_producto' => 'required|numeric|unique:productos',
-                'id_lugar_entrega' => 'required|numeric',
+                'id_producto' => 'required|numeric',
                 'nombre_destinatario' => 'required|alpha|max:100|min:3',
                 'nombre_remitente' => 'required|alpha|max:100|min:3',
-                'fecha_de_entrega' => 'required|date'
+               
 
             ],
         );
     }
 
-    public function IngresarUnPaquete(Request $request)
+    public function IngresarUnPaqueteConDireccion(Request $request){
+        $this -> lockTables();
+        DB::beginTransaction();
+       $ultimaDireccion = $this -> IngresarDireccion($request);
+
+        $idUltimaDireccion = $ultimaDireccion['id'];
+        $this -> IngresarUnpaquete($request,  $idUltimaDireccion);
+        DB::commit();
+        DB::raw('UNLOCK TABLES');
+    }
+
+    public function IngresarDireccion(Request $request){
+        $lugarEntrega = new Lugares_Entrega;
+        $lugarEntrega->latitud = $request->post("latitud");
+        $lugarEntrega->longitud = $request->post("longitud");
+        $lugarEntrega->direccion = $request->post("direccion");
+        $lugarEntrega->save;
+        $soyUnmensaje = 'hola';
+        return  $soyUnmensaje;
+    }
+
+    private function lockTables(){
+        DB::raw('LOCK TABLE lugares_entrega WRITE');
+        DB::raw('LOCK TABLE paquetes WRITE');
+    }
+
+    public function IngresarUnPaquete(Request $request, $idDireccion)
     {
         $Paquete = new Paquete;
         $Paquete->nombre = $request->post("nombre");
-        $Paquete->volumen_l = $request->post("volumenEnL");
-        $Paquete->peso_kg = $request->post("pesoEnKg");
-        $Paquete->id_estado_p = $request->post("estado");
-        $Paquete->id_caracteristica_paquete = $request->post("tipoDePaquete");
-        $Paquete->id_producto = $request->post("idProducto");
-        $Paquete->id_lugar_entrega = $request->post("idLugarEntrega");
-        $Paquete->nombre_destinatario = $request->post("nombreDelDestinatario");
-        $Paquete->nombre_remitente = $request->post("nombreDelRemitente");
-        $Paquete->fecha_de_entrega = $request->post("fechaDeEntrega");
+        $Paquete->volumen_l = $request->post("volumen_l");
+        $Paquete->peso_kg = $request->post("peso_kg");
+        $Paquete->id_estado_p = $request->post("id_estado_p");
+        $Paquete->id_caracteristica_paquete = $request->post("id_caracteristica_paquete");
+        $Paquete->id_producto = $request->post("id_producto");
+
+        $Paquete->id_lugar_entrega = $idDireccion;
+        $Paquete->nombre_destinatario = $request->post("nombre_destinatario");
+        $Paquete->nombre_remitente = $request->post("nombre_remitente");
+
 
         $Paquete->save();
 
