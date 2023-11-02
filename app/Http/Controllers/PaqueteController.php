@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Caracteristica;
+use App\Models\Estado_P;
 use App\Models\Moneda;
 use App\Models\Paquete;
 use App\Http\Controllers\Controller;
@@ -20,12 +22,27 @@ class PaqueteController extends Controller
         try{
             $datoPaquete = Paquete::withTrashed()->get();
             $infoPaquete = [];
-            if ($datoPaquete) {
-                foreach ($datoPaquete as $dato) {
-                    $infoPaquete[] = $this->obtenerPaquetes($dato);
-                }
+            $datoLugarEntrega = Lugares_Entrega::withoutTrashed()->get();
+            $idLugaresEntrega = [];
+            $datoProducto = Producto::withoutTrashed()->get();
+            $idProductos = [];
+            $datoCaracteristica = Caracteristica::withoutTrashed()->get();
+            $descripcionCaracteristica = [];
+            $datoEstadoPaquete = Estado_p::withoutTrashed()->get();
+            $estadoPaquete = [];
+            foreach ($datoPaquete as $dato) {
+                $infoPaquete[] = $this->obtenerPaquetes($dato);
             }
-            return $infoPaquete;
+   
+            foreach ($datoCaracteristica as $dato) {
+                $descripcionCaracteristica[] = $dato['descripcion_caracteristica'];
+            }
+            foreach ($datoEstadoPaquete as $dato) {
+                $estadoPaquete[] = $dato['descripcion_estado_p'];
+            }
+            $idLugaresEntrega = $this->obtenerIdsClase($datoLugarEntrega);
+            $idProductos = $this->obtenerIdsClase($datoProducto);
+            return [$infoPaquete,$descripcionCaracteristica,$idProductos,$infoPaquete,$estadoPaquete];
         } catch (\Exception $e){
             $mensajeDeError = 'Error: ';
             return $mensajeDeError;
@@ -65,6 +82,8 @@ class PaqueteController extends Controller
         }
 
     }
+
+    
     private function obtenerProducto($producto)
     {
         try {
@@ -84,6 +103,19 @@ class PaqueteController extends Controller
             return $mensajeDeError;
         }
 
+    }
+
+    private function obtenerIdsClase($datoClase)
+    {
+        try {
+            $datoId = [];
+            foreach ($datoClase as $dato) {
+                $datoId[] = $dato['id'];
+            }
+            return $datoId;
+        } catch (\Exception $e) {
+            $mensajeDeError = 'Error: no se pudieron cargar los datos';
+        }
     }
 
 
@@ -109,16 +141,14 @@ class PaqueteController extends Controller
                 'nombre' => 'required|regex:/(^[A-Za-z0-9 ]+$)+/|max:50|min:5',
                 'volumen_l' => 'required|numeric|max:1000|min:1',
                 'peso_kg' => 'required|numeric|max:1000|min:1',
-                'id_estado_p' => 'required|numeric',
-                'id_caracteristica_paquete' => 'required|numeric',
+                'id_estado_p' => 'required|string',
+                'id_caracteristica_paquete' => 'required|string',
                 'id_producto' => 'required|numeric',
-                'nombre_destinatario' => 'required|alpha|max:100|min:3',
-                'nombre_remitente' => 'required|alpha|max:100|min:3',
+                'nombre_destinatario' => 'required|regex:/(^[A-Za-z0-9 ]+$)+/|max:100|min:3',
+                'nombre_remitente' => 'required|regex:/(^[A-Za-z0-9 ]+$)+/|max:100|min:3',
                 'direccion'=>'required|regex:/(^[A-Za-z0-9 ]+$)+/|max:100|min:1',
                 'latitud'=>'required|numeric|max:200|min:-200',
                 'longitud'=>'required|numeric|max:200|min:-200',
-               
-
             ],
         );
     }
@@ -150,12 +180,14 @@ class PaqueteController extends Controller
 
     public function IngresarUnPaquete(Request $request, $idDireccion)
     {
+        $estado=$this->obtenerIdEstado($request->post('id_estado_p'));
+        $caracteristica=$this->obtenerIdCaracteristica($request->post('id_caracteristica_paquete'));
         $Paquete = new Paquete;
         $Paquete->nombre = $request->post("nombre");
         $Paquete->volumen_l = $request->post("volumen_l");
         $Paquete->peso_kg = $request->post("peso_kg");
-        $Paquete->id_estado_p = $request->post("id_estado_p");
-        $Paquete->id_caracteristica_paquete = $request->post("id_caracteristica_paquete");
+        $Paquete->id_estado_p = $estado;
+        $Paquete->id_caracteristica_paquete = $caracteristica;
         $Paquete->id_producto = $request->post("id_producto");
         $Paquete->id_lugar_entrega = $idDireccion;
         $Paquete->nombre_destinatario = $request->post("nombre_destinatario");
@@ -183,25 +215,47 @@ class PaqueteController extends Controller
         $this -> Modificar($request,  $idUltimaDireccion, $idPaquete);
         DB::commit();
         DB::raw('UNLOCK TABLES');
+        return $idPaquete;
     }
 
 
     public function Modificar(Request $request,$idDireccion, $idPaquete)
     {
+        $estado=$this->obtenerIdEstado($request->post('id_estado_p'));
+        $caracteristica=$this->obtenerIdCaracteristica($request->post('id_caracteristica_paquete'));
         $Paquete = Paquete::findOrFail($idPaquete);
-        $Paquete->nombre = $request->post("nombre");
-        $Paquete->volumen_l = $request->post("volumen_l");
-        $Paquete->peso_kg = $request->post("peso_kg");
-        $Paquete->id_estado_p = $request->post("id_estado_p");
-        $Paquete->id_caracteristica_paquete = $request->post("id_caracteristica_paquete");
-        $Paquete->id_producto = $request->post("id_producto");
-        $Paquete->id_lugar_entrega = $idDireccion;
-        $Paquete->nombre_destinatario = $request->post("nombre_destinatario");
-        $Paquete->nombre_remitente = $request->post("nombre_remitente");
-
-        $Paquete->save();
-
+        $Paquete->update([
+            'nombre'=>$request->post("nombre"),
+            'volumen_l' => $request->post("volumen_l"),
+            'peso_kg' => $request->post("peso_kg"),
+            'id_estado_p' => $estado,
+            'id_caracteristica_paquete' => $caracteristica,
+            'id_producto' => $request->post("id_producto"),
+            'id_lugar_entrega' => $idDireccion,
+            'nombre_destinatario' => $request->post("nombre_destinatario"),
+            'nombre_remitente' => $request->post("nombre_remitente"),
+        ]);
         return $Paquete;
+    }
+
+    private function obtenerIdCaracteristica($caracteristica)
+    {
+        try {
+            $caracteristica = Caracteristica::withoutTrashed()->where('descripcion_caracteristica', $caracteristica)->first();
+            return $caracteristica['id'];
+        } catch (\Exception $e) {
+            $mensajeDeError = 'Error: ';
+        }
+    }
+
+    private function obtenerIdEstado($estado)
+    {
+        try {
+            $estado = Estado_p::withTrashed()->where('descripcion_estado_p', $estado)->first();
+            return $estado['id'];
+        } catch (\Exception $e) {
+            $mensajeDeError = 'Error: ';
+        }
     }
 
     public function Eliminar(Request $request, $idPaquete)
