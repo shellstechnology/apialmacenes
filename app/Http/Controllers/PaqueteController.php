@@ -100,13 +100,6 @@ class PaqueteController extends Controller
         return $this->IngresarUnPaqueteConDireccion($request);
     }
 
-    public function ComprobarDatosPaqueteAModificar(Request $request)
-    {
-        $validacion = $this->validacion($request->all());
-        if ($validacion->fails())
-            return ["errors" => $validacion->errors()];
-        return $this->ModificarUnPaqueteConDireccion($request);
-    }
 
     private function validacion($data)
     {
@@ -172,17 +165,28 @@ class PaqueteController extends Controller
 
         return $Paquete;
     }
-
-
-    public function Eliminar(Request $request, $idPaquete)
+   
+    public function ComprobarDatosPaqueteAModificar(Request $request, $idPaquete)
     {
-        $Paquete = Paquete::findOrFail($idPaquete);
-        $Paquete->delete();
-
-        return ["mensaje" => "Paquete $idPaquete eliminado."];
+        $validacion = $this->validacion($request->all());
+        if ($validacion->fails())
+            return ["errors" => $validacion->errors()];
+        return $this->ModificarUnPaqueteConDireccion($request, $idPaquete);
     }
 
-    public function Modificar(Request $request, $idPaquete)
+    public function ModificarUnPaqueteConDireccion(Request $request, $idPaquete){
+        $this -> lockTables();
+        DB::beginTransaction();
+        $this -> IngresarDireccion($request);
+        $ultimaDireccion = Lugares_Entrega::latest('created_at')->first();
+        $idUltimaDireccion = $ultimaDireccion['id'];
+        $this -> Modificar($request,  $idUltimaDireccion, $idPaquete);
+        DB::commit();
+        DB::raw('UNLOCK TABLES');
+    }
+
+
+    public function Modificar(Request $request,$idDireccion, $idPaquete)
     {
         $Paquete = Paquete::findOrFail($idPaquete);
         $Paquete->nombre = $request->post("nombre");
@@ -191,14 +195,21 @@ class PaqueteController extends Controller
         $Paquete->id_estado_p = $request->post("id_estado_p");
         $Paquete->id_caracteristica_paquete = $request->post("id_caracteristica_paquete");
         $Paquete->id_producto = $request->post("id_producto");
-        $Paquete->id_lugar_entrega = $request->post("id_lugar_entrega");
+        $Paquete->id_lugar_entrega = $idDireccion;
         $Paquete->nombre_destinatario = $request->post("nombre_destinatario");
         $Paquete->nombre_remitente = $request->post("nombre_remitente");
-        $Paquete->fecha_de_entrega = $request->post("fecha_de_entrega");
 
         $Paquete->save();
 
         return $Paquete;
+    }
+
+    public function Eliminar(Request $request, $idPaquete)
+    {
+        $Paquete = Paquete::findOrFail($idPaquete);
+        $Paquete->delete();
+
+        return ["mensaje" => "Paquete $idPaquete eliminado."];
     }
 
     public function restore($id)
