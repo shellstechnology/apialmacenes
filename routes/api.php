@@ -27,7 +27,7 @@ route::get('/paquete/{d}', [PaqueteController::class, "MostrarMiPaquete"]);
 
 Route::post("/paquete", [PaqueteController::class, "ComprobarDatosPaqueteAIngresar"]);
 
-Route::put("/paquete/{d}", [PaqueteController::class, "Modificar"]);
+Route::put("/paquete/{d}", [PaqueteController::class, "ComprobarDatosPaqueteAModificar"]);
 
 Route::delete("/paquete/{d}", [PaqueteController::class, "Eliminar"]);
 
