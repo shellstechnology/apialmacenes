@@ -18,21 +18,52 @@ class PaqueteController extends Controller
     public function MostrarTodosLosPaquetes(Request $Request)
     {
         try{
-            $datoProducto = Producto::withTrashed()->get();
-            $infoProducto = [];
-            $infoMonedas = [];
-            if ($datoProducto) {
-                foreach ($datoProducto as $dato) {
-                    $infoProducto[] = $this->obtenerProducto($dato);
+            $datoPaquete = Paquete::withTrashed()->get();
+            $infoPaquete = [];
+            if ($datoPaquete) {
+                foreach ($datoPaquete as $dato) {
+                    $infoPaquete[] = $this->obtenerPaquetes($dato);
                 }
             }
-            // $infoMonedas = $this->obtenerMonedas();
-            // Session::put('monedas', $infoMonedas);
-            return $infoProducto;
+            return $infoPaquete;
         } catch (\Exception $e){
             $mensajeDeError = 'Error: ';
             return $mensajeDeError;
         }
+    }
+    private function obtenerPaquetes($paquete)
+    {
+        try {
+            $lugarEntrega = Lugares_Entrega::withTrashed()->where('id', $paquete['id_lugar_entrega'])->first();
+            $caracteristica = Caracteristica::withTrashed()->where('id', $paquete['id_caracteristica_paquete'])->first();
+            $estado = Estado_P::withTrashed()->where('id', $paquete['id_estado_p'])->first();
+            $producto = Producto::withTrashed()->where('id', $paquete['id_producto'])->first();
+            if ($producto && $lugarEntrega && $caracteristica) {
+                return (
+                    [
+                        'Id Paquete' => $paquete['id'],
+                        'Nombre del Paquete' => $paquete['nombre'],
+                        'Fecha de Entrega' => $paquete['fecha_de_entrega'],
+                        'Id Lugar Entrega' => $lugarEntrega['id'],
+                        'Direccion' => $lugarEntrega['direccion'],
+                        'Estado' => $estado['descripcion_estado_p'],
+                        'Caracteristicas' => $caracteristica['descripcion_caracteristica'],
+                        'Nombre del Remitente' => $paquete['nombre_remitente'],
+                        'Nombre del Destinatario' => $paquete['nombre_destinatario'],
+                        'Id del Producto' => $producto['id'],
+                        'Producto' => $producto['nombre'],
+                        'Volumen(L)' => $paquete['volumen_l'],
+                        'Peso(Kg)' => $paquete['peso_kg'],
+                        'created_at' => $paquete['created_at'],
+                        'updated_at' => $paquete['updated_at'],
+                        'deleted_at' => $paquete['deleted_at'],
+                    ]);
+            }
+        } catch (\Exception $e){
+            $mensajeDeError = 'Error: ';
+            return $mensajeDeError;
+        }
+
     }
     private function obtenerProducto($producto)
     {
