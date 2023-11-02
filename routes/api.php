@@ -64,4 +64,4 @@ Route::put("/producto/{d}", [ProductoController::class, "Modificar"]);
 
 Route::delete("/producto/{d}", [ProductoController::class, "Eliminar"]);
 
-
+Route::patch("/producto/{d}", [ProductoController::class, "restore"]);
