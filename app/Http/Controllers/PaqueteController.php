@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Caracteristica;
+use App\Models\Estado_P;
+use App\Models\Lugares_Entrega;
 use App\Models\Moneda;
 use App\Models\Paquete;
 use App\Http\Controllers\Controller;
@@ -15,36 +18,47 @@ class PaqueteController extends Controller
     public function MostrarTodosLosPaquetes(Request $Request)
     {
         try{
-            $datoProducto = Producto::withTrashed()->get();
-            $infoProducto = [];
-            $infoMonedas = [];
-            if ($datoProducto) {
-                foreach ($datoProducto as $dato) {
-                    $infoProducto[] = $this->obtenerProducto($dato);
+            $datoPaquete = Paquete::withTrashed()->get();
+            $infoPaquete = [];
+            if ($datoPaquete) {
+                foreach ($datoPaquete as $dato) {
+                    $infoPaquete[] = $this->obtenerPaquetes($dato);
                 }
             }
-            // $infoMonedas = $this->obtenerMonedas();
-            // Session::put('monedas', $infoMonedas);
-            return $infoProducto;
+            return $infoPaquete;
         } catch (\Exception $e){
             $mensajeDeError = 'Error: ';
             return $mensajeDeError;
         }
     }
-    private function obtenerProducto($producto)
+    private function obtenerPaquetes($paquete)
     {
         try {
-            $moneda = Moneda::withTrashed()->where('id', $producto['id_moneda'])->first();
-            return ([
-                'Id' => $producto['id'],
-                'Nombre' => $producto['nombre'],
-                'Stock' => $producto['stock'],
-                'Precio' => $producto['precio'],
-                'Moneda' => $moneda['moneda'],
-                'created_at' => $producto['created_at'],
-                'updated_at' => $producto['updated_at'],
-                'deleted_at' => $producto['deleted_at']
-            ]);
+            $lugarEntrega = Lugares_Entrega::withTrashed()->where('id', $paquete['id_lugar_entrega'])->first();
+            $caracteristica = Caracteristica::withTrashed()->where('id', $paquete['id_caracteristica_paquete'])->first();
+            $estado = Estado_P::withTrashed()->where('id', $paquete['id_estado_p'])->first();
+            $producto = Producto::withTrashed()->where('id', $paquete['id_producto'])->first();
+            if ($producto && $lugarEntrega && $caracteristica) {
+                return (
+                    [
+                        'Id Paquete' => $paquete['id'],
+                        'Nombre del Paquete' => $paquete['nombre'],
+                        'Fecha de Entrega' => $paquete['fecha_de_entrega'],
+                        'Id Lugar Entrega' => $lugarEntrega['id'],
+                        'Direccion' => $lugarEntrega['direccion'],
+                        'Estado' => $estado['descripcion_estado_p'],
+                        'Caracteristicas' => $caracteristica['descripcion_caracteristica'],
+                        'Nombre del Remitente' => $paquete['nombre_remitente'],
+                        'Nombre del Destinatario' => $paquete['nombre_destinatario'],
+                        'Id del Producto' => $producto['id'],
+                        'Producto' => $producto['nombre'],
+                        'Volumen(L)' => $paquete['volumen_l'],
+                        'Peso(Kg)' => $paquete['peso_kg'],
+                        'created_at' => $paquete['created_at'],
+                        'updated_at' => $paquete['updated_at'],
+                        'deleted_at' => $paquete['deleted_at'],
+                    ]);
+            }
         } catch (\Exception $e){
             $mensajeDeError = 'Error: ';
             return $mensajeDeError;
