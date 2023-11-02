@@ -61,12 +61,20 @@ class PaqueteController extends Controller
         return Paquete::findOrFail($idPaquete);
     }
 
-    public function ComprobarDatosPaquete(Request $request)
+    public function ComprobarDatosPaqueteAIngresar(Request $request)
     {
         $validacion = $this->validacion($request->all());
         if ($validacion->fails())
             return ["errors" => $validacion->errors()];
-        return $this->IngresarUnPaquete($request);
+        return $this->IngresarUnPaqueteConDireccion($request);
+    }
+
+    public function ComprobarDatosPaqueteAModificar(Request $request)
+    {
+        $validacion = $this->validacion($request->all());
+        if ($validacion->fails())
+            return ["errors" => $validacion->errors()];
+        return $this->ModificarUnPaqueteConDireccion($request);
     }
 
     private function validacion($data)
@@ -74,7 +82,7 @@ class PaqueteController extends Controller
         return Validator::make(
             $data,
             [
-                'nombre' => 'required|alpha|max:50|min:5',
+                'nombre' => 'required|regex:/(^[A-Za-z0-9 ]+$)+/|max:50|min:5',
                 'volumen_l' => 'required|numeric|max:1000|min:1',
                 'peso_kg' => 'required|numeric|max:1000|min:1',
                 'id_estado_p' => 'required|numeric',
@@ -82,6 +90,9 @@ class PaqueteController extends Controller
                 'id_producto' => 'required|numeric',
                 'nombre_destinatario' => 'required|alpha|max:100|min:3',
                 'nombre_remitente' => 'required|alpha|max:100|min:3',
+                'direccion'=>'required|regex:/(^[A-Za-z0-9 ]+$)+/|max:100|min:1',
+                'latitud'=>'required|numeric|max:200|min:-200',
+                'longitud'=>'required|numeric|max:200|min:-200',
                
 
             ],
@@ -122,11 +133,9 @@ class PaqueteController extends Controller
         $Paquete->id_estado_p = $request->post("id_estado_p");
         $Paquete->id_caracteristica_paquete = $request->post("id_caracteristica_paquete");
         $Paquete->id_producto = $request->post("id_producto");
-
         $Paquete->id_lugar_entrega = $idDireccion;
         $Paquete->nombre_destinatario = $request->post("nombre_destinatario");
         $Paquete->nombre_remitente = $request->post("nombre_remitente");
-
 
         $Paquete->save();
 

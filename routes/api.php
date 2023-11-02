@@ -25,7 +25,7 @@ Route::get('/paquete', [PaqueteController::class, "MostrarTodosLosPaquetes"]);
 
 route::get('/paquete/{d}', [PaqueteController::class, "MostrarMiPaquete"]);
 
-Route::post("/paquete", [PaqueteController::class, "IngresarUnPaqueteConDireccion"]);
+Route::post("/paquete", [PaqueteController::class, "ComprobarDatosPaqueteAIngresar"]);
 
 Route::put("/paquete/{d}", [PaqueteController::class, "Modificar"]);
 
