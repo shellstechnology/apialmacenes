@@ -31,6 +31,8 @@ Route::put("/paquete/{d}", [PaqueteController::class, "ComprobarDatosPaqueteAMod
 
 Route::delete("/paquete/{d}", [PaqueteController::class, "Eliminar"]);
 
+Route::patch("/paquete/{d}", [PaqueteController::class, "restore"]);
+
 
 Route::get('/lote', [LoteController::class, "MostrarTodosLosLotes"]);
 
