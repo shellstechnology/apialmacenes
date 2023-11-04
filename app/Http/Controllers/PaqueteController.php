@@ -216,7 +216,8 @@ class PaqueteController extends Controller
         $this -> Modificar($request,  $idUltimaDireccion, $idPaquete);
         DB::commit();
         DB::raw('UNLOCK TABLES');
-        return $idPaquete;
+        $paquete = Paquete::findOrFail($idPaquete);
+        return $paquete;
     }
 
 

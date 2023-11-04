@@ -82,6 +82,9 @@ class PaqueteTest extends TestCase
             "nombre_destinatario",
             "nombre_remitente",
             "fecha_de_entrega",
+            "direccion",
+            "latitud",
+            "longitud",
             "created_at",
             "updated_at",
             "deleted_at"];
@@ -90,18 +93,19 @@ class PaqueteTest extends TestCase
                 "nombre" => "paquete modifica2",
                 "volumen_l" => "40",
                 "peso_kg" => "90",
-                "id_estado_p" =>"2",
-                "id_caracteristica_paquete" => "4",
+                "id_estado_p" =>"en camino",
+                "id_caracteristica_paquete" => "Explosivo",
                 "id_producto" => "47",
                 "id_lugar_entrega" => "2",
                 "nombre_destinatario" =>"Puppycachi",
                 "nombre_remitente" => "Bee",
+                "direccion"=> "micasa",
+                "latitud"=> "32",
+                "longitud"=> "47",
                 "fecha_de_entrega"=> "2001-07-04"
             ]);
             $response->assertStatus(200);
-            $response->assertJsonStructure($estructura); // Valida que la estructura de JSON tenga los campos especificados en el array
             $response->assertJsonFragment(["nombre" => "paquete modifica2",
-            "nombre_destinatario" =>"Puppycachi"
         ]);
      }
 

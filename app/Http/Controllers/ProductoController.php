@@ -106,7 +106,8 @@ class ProductoController extends Controller
             'stock' => $request->post('stock'),
             'id_moneda' => $moneda
         ]);
-        return $Producto;
+        $productoVerdadero = Producto::findOrFail($idProducto);
+        return $productoVerdadero;
     }
 
     public function restore($id)

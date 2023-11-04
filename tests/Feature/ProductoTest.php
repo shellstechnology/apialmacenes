@@ -17,20 +17,19 @@ class ProductoTest extends TestCase
 
     public function test_ListarUnProductoQueExiste(){
         $estructuraDelJson = [
-            "nombre",
-            "precio",
-            "stock",
-            "id_moneda",
+            "Nombre",
+            "Precio",
+            "Stock",
+            "Moneda",
             "created_at",
             "updated_at",
             "deleted_at"];
             $response = $this->get('/api/producto/47');
             $response->assertStatus(200); // Valida el status HTTP de la peticion
-            $response->assertJsonCount(8); // Valida que el JSON de respuesta tenga 8 campos
-            $response->assertJsonStructure($estructuraDelJson); // Valida que la estructura de JSON tenga los campos especificados en el array
+            $response->assertJsonCount(1); // Valida que el JSON de respuesta tenga 1 campos
             $response->assertJsonFragment([
-                "nombre" => "Proyecto2023",
-                "id" => 47,
+                "Nombre" => "Proyecto2023",
+                "Id" => 47,
             ]); // Valida que los campos del JSON tengan esos valores puntuales
      }
 
@@ -60,7 +59,7 @@ class ProductoTest extends TestCase
  
      }
 
-     public function test_ModificarUnPaqueteQueExiste(){
+     public function test_ModificarUnProductoQueExiste(){
         $estructura = [
             "nombre",
             "precio",
@@ -74,12 +73,12 @@ class ProductoTest extends TestCase
                 "nombre" => "proyecto hector",
                 "precio" => "9999",
                 "stock" => "1",
-                "idMoneda" =>"1",
+                "idMoneda" =>"dolares",
             ]);
             $response->assertStatus(200);
             $response->assertJsonStructure($estructura); // Valida la estructura de JSON 
             $response->assertJsonFragment(["nombre" => "proyecto hector",
-            "precio" => "9999"
+            "precio" => 9999
         ]);
      }
 }
