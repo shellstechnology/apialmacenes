@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UsuariosSeeder::class);
         $this->call(telefonos_usuariosSeeder::class);
         $this->call(mail_usuariosSeeder::class);
-        $this->call(choferesSeeder::class);
+        $this->call(ChoferesSeeder::class);
         $this->call(marcasSeeder::class);
         $this->call(modelosSeeder::class);
         $this->call(Estados_CSeeder::class);
