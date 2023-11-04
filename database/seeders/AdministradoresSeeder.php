@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class telefonos_usuariosSeeder extends Seeder
+class AdministradoresSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,17 +14,14 @@ class telefonos_usuariosSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\telefonos_usuarios::factory(1)->create([
+            \App\Models\administradores::factory(1)->create([
             "id_usuarios"=>"47",
-            "telefono" => "tel list",
         ]);
-        \App\Models\telefonos_usuarios::factory(1)->create([
+        \App\Models\administradores::factory(1)->create([
             "id_usuarios"=>"42",
-            "telefono" => "tel mod",
         ]);
-        \App\Models\telefonos_usuarios::factory(1)->create([
+        \App\Models\administradores::factory(1)->create([
             "id_usuarios"=>"74",
-            "telefono" => "tel del",
         ]);
     }
 }

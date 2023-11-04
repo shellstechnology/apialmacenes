@@ -14,23 +14,23 @@ class mail_usuariosSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Mail_usuarios::factory(1)->create([
+        \App\Models\mail_usuarios::factory(1)->create([
             "id_usuarios"=>"10",
             "mail" => "torito@carrera",
         ]);
-        \App\Models\Mail_usuarios::factory(1)->create([
+        \App\Models\mail_usuarios::factory(1)->create([
             "id_usuarios"=>"20",
             "mail" => "chofer@mail",
         ]);
-        \App\Models\Mail_usuarios::factory(1)->create([
+        \App\Models\mail_usuarios::factory(1)->create([
             "id_usuarios"=>"47",
             "mail" => "listar@mail.com",
         ]);
-        \App\Models\Mail_usuarios::factory(1)->create([
+        \App\Models\mail_usuarios::factory(1)->create([
             "id_usuarios"=>"42",
             "mail" => "modificar@mail.com",
         ]);
-        \App\Models\Mail_usuarios::factory(1)->create([
+        \App\Models\mail_usuarios::factory(1)->create([
             "id_usuarios"=>"74",
             "mail" => "eliminar@mail.com",
         ]);
