@@ -14,15 +14,15 @@ class telefonos_usuariosSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Telefonos_usuarios::factory(1)->create([
+        \App\Models\telefonos_usuarios::factory(1)->create([
             "id_usuarios"=>"47",
             "telefono" => "tel list",
         ]);
-        \App\Models\Telefonos_usuarios::factory(1)->create([
+        \App\Models\telefonos_usuarios::factory(1)->create([
             "id_usuarios"=>"42",
             "telefono" => "tel mod",
         ]);
-        \App\Models\Telefonos_usuarios::factory(1)->create([
+        \App\Models\telefonos_usuarios::factory(1)->create([
             "id_usuarios"=>"74",
             "telefono" => "tel del",
         ]);
