@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
         $this->call(MarcasSeeder::class);
         $this->call(ModelosSeeder::class);
         $this->call(Estados_CSeeder::class);
-        $this->call(camionesSeeder::class);
+        $this->call(CamionesSeeder::class);
         $this->call(chofer_conduce_camionSeeder::class);
         $this->call(Camion_Lleva_LoteSeeder::class);
     }
