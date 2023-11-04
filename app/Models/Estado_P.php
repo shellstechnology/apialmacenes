@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 
-class Estado_p extends Model
+class Estado_P extends Model
 {
     protected $table = 'estados_p';
     use HasFactory;
