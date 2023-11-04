@@ -18,5 +18,4 @@ class Camion_Lleva_Lote extends Model
     use SoftDeletes;
     use ValidatesRequests;
     public $timestamps = true;
-   
 }
