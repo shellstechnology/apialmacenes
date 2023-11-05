@@ -12,7 +12,26 @@ class LoteController extends Controller
 
     public function MostrarTodosLosLotes(Request $Request)
     {
-        return Lote::all();
+        $datoLote = Lote::withTrashed()->get();
+        $infoLote = [];
+        if ($datoLote) {
+            foreach ($datoLote as $lote) {
+                $infoLote[] = $this->obtenerDatosLotes($lote);
+            }
+            return $infoLote;
+        }
+    }
+
+    private function obtenerDatosLotes($lote)
+    {
+            return ([
+                'Id Lote' => $lote['id'],
+                'Volumen(L)' => $lote['volumen_l'],
+                'Peso(Kg)' => $lote['peso_kg'],
+                'created_at' => $lote['created_at'],
+                'updated_at' => $lote['updated_at'],
+                'deleted_at' => $lote['deleted_at'],
+            ]);
     }
 
     public function MostrarUnLote(Request $request, $idLote)

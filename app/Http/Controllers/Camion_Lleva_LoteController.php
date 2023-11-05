@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Camiones;
+use App\Models\Lote;
 use Illuminate\Http\Request;
 use App\Models\Camion_Lleva_Lote;
 
@@ -10,7 +12,35 @@ class Camion_Lleva_LoteController extends Controller
 {
     public function MostrarTodosLosCamionesConLotes(Request $Request)
     {
-        return Camion_Lleva_Lote::all();
+        $datosCamionLlevaLote = Camion_Lleva_Lote::withTrashed()->get();
+        $infoCamionLlevaLote = [];
+        $matriculaCamion = [];
+        $idLote = [];
+        foreach ($datosCamionLlevaLote as $camionLlevaLote) {
+            $infoCamionLlevaLote[] = $this->obtenerCamionLlevaLote($camionLlevaLote);
+        }
+        $camiones = Camiones::withoutTrashed()->get();
+        foreach ($camiones as $camion) {
+            $matriculaCamion[] = $camion['matricula'];
+        }
+        $lote = Lote::withoutTrashed()->get();
+        foreach ($lote as $datoLote) {
+            $idLote[] = $datoLote['id'];
+        }
+        return [$infoCamionLlevaLote,$matriculaCamion,$idLote];
+    }
+
+    
+    private function obtenerCamionLlevaLote($camionLlevaLote)
+    {
+        $infoCamionLlevaLote = [
+            'Id Lote' => $camionLlevaLote['id_lote'],
+            'Matricula Camion' => $camionLlevaLote['matricula'],
+            'created_at' => $camionLlevaLote['created_at'],
+            'updated_at' => $camionLlevaLote['updated_at'],
+            'deleted_at' => $camionLlevaLote['deleted_at']
+        ];
+        return $infoCamionLlevaLote;
     }
 
     public function MostrarUnCamionConSusLotes(Request $request, $matricula)
@@ -51,8 +81,6 @@ class Camion_Lleva_LoteController extends Controller
 
     public function restore($id)
     {
-        Paquete::withTrashed()->find($id)->restore();
-
-        return back();
+        Camion_Lleva_Lote::withTrashed()->find($id)->restore();
     }
 }

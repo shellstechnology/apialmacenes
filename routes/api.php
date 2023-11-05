@@ -6,6 +6,7 @@ use App\Http\Controllers\PaqueteController;
 use App\Http\Controllers\LoteController;
 use App\Http\Controllers\Paquete_Contiene_LoteController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\Camion_Lleva_LoteController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -42,7 +43,7 @@ Route::get('/lote/{d}', [LoteController::class, "MostrarUnLote"]);
 
 Route::delete('/lote/{d}', [LoteController::class, "Eliminar"]);
 
-Route::put('/lote/{d}', [LoteController::class, "Recuperar"]);
+Route::patch('/lote/{d}', [LoteController::class, "Recuperar"]);
 
 
 Route::get('/paquete-lote', [Paquete_Contiene_LoteController::class, "MostrarTodosLosLotes"]);
@@ -67,3 +68,16 @@ Route::put("/producto/{d}", [ProductoController::class, "Modificar"]);
 Route::delete("/producto/{d}", [ProductoController::class, "Eliminar"]);
 
 Route::patch("/producto/{d}", [ProductoController::class, "restore"]);
+
+
+Route::get('/loteCamion', [Camion_Lleva_LoteController::class, "MostrarTodosLosCamionesConLotes"]);
+
+route::get('/loteCamion/{d}', [Camion_Lleva_LoteController::class, "MostrarUnCamionConSusLotes"]);
+
+Route::post("/loteCamion", [Camion_Lleva_LoteController::class, "IngresarUnLoteAUnCamion"]);
+
+Route::put("/loteCamion/{d}", [Camion_Lleva_LoteController::class, "ModificarUnLoteEnUnCamion"]);
+
+Route::delete("/loteCamion/{d}", [Camion_Lleva_LoteController::class, "Eliminar"]);
+
+Route::patch("/loteCamion/{d}", [Camion_Lleva_LoteController::class, "restore"]);
