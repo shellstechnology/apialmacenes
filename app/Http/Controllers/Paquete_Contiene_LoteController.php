@@ -105,7 +105,7 @@ class Paquete_Contiene_LoteController extends Controller
 
     public function Eliminar(Request $request, $id)
     {
-        $Lote = Paquete_Contiene_Lote::where('id_lote', '=', $id)->get();
+        $Lote = Paquete_Contiene_Lote::where('id_paquete', '=', $id)->get();
         foreach ($Lote as $l) {
             $l->delete();
         }
@@ -125,8 +125,10 @@ class Paquete_Contiene_LoteController extends Controller
 
     public function restore($id)
     {
-        Paquete_Contiene_Lote::withTrashed()->find($id)->restore();
+        $Lote =  Paquete_Contiene_Lote::withTrashed()->find($id)->restore();
+        foreach ($Lote as $l) {
+            $l->restore();
+        }
 
-        return back();
     }
 }

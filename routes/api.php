@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Http\Middleware;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaqueteController;
@@ -55,6 +57,8 @@ Route::get('/paquete-lote/{d}', [Paquete_Contiene_LoteController::class, "Mostra
 Route::delete('/paquete-lote/{d}', [Paquete_Contiene_LoteController::class, "Eliminar"]);
 
 Route::put('/paquete-lote/{d}', [Paquete_Contiene_LoteController::class, "Modificar"]);
+
+Route::patch('/paquete-lote/{d}', [Paquete_Contiene_LoteController::class, "restore"]);
 
 
 Route::get('/producto', [ProductoController::class, "MostrarTodosLosProductos"]);

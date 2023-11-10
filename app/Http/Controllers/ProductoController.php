@@ -67,7 +67,7 @@ class ProductoController extends Controller
         return Validator::make(
             $data,
             [
-                'nombre' => 'required|regex:/^[\pL\s\-]+$/u|max:50|min:3',
+                'nombre' => 'required|regex:/(^[A-Za-z0-9 ]+$)+/|max:50|min:3',
                 'precio' => 'required|numeric|max:1000|min:1',
                 'stock' => 'required|numeric|max:1000|min:1',
                 'idMoneda' => 'required|string'
