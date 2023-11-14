@@ -47,7 +47,7 @@ class LoteTest extends TestCase
         $response1->assertStatus(200);
     
         //recupero el lote
-        $response2 = $this->put('api/lote/74');
+        $response2 = $this->patch('api/lote/74');
       $response2->assertStatus(200);
        }
 }

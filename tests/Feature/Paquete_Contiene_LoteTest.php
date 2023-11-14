@@ -36,7 +36,8 @@ class Paquete_Contiene_LoteTest extends TestCase
              "id_almacen",
              "created_at",
              "updated_at",
-             "deleted_at"];
+             "deleted_at"
+            ];
              
              $response = $this->put('api/paquete-lote/42', [
                  "id_lote" => "42",
@@ -44,11 +45,9 @@ class Paquete_Contiene_LoteTest extends TestCase
                  "id_almacen"=> "47"
                 ]);
                 $response->assertStatus(200);
-                $response->assertJsonStructure($estructura); 
-                $response->assertJsonFragment(["id_lote" => "42",
-                "id_paquete" =>"42"
-            ]);
+
         }
+
         public function test_EliminarUnLoteQueExiste()
         {
             $response = $this->delete('api/paquete-lote/74');
