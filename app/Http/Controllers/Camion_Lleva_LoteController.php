@@ -50,25 +50,66 @@ class Camion_Lleva_LoteController extends Controller
 
     public function IngresarUnLoteAUnCamion(Request $request)
     {
+        $valoresLote=$this->comprobarValoresDelLote($request);
+        if($valoresLote!=true)
+        return null;
+
         $CamionLlevaLote = new Camion_Lleva_Lote;
         $CamionLlevaLote->matricula  = $request->post("matricula");
         $CamionLlevaLote->id_lote = $request->post("id_lote");
-
         $CamionLlevaLote->save();
-
         return $CamionLlevaLote;
     }
 
     public function ModificarUnLoteEnUnCamion(Request $request, $idLote)
     {
+        $valoresLote=$this->comprobarValoresDelLote($request);
+        if($valoresLote!=true)
+        return null;
+
         $CamionLlevaLote = Camion_Lleva_Lote::findOrFail($idLote);
         $CamionLlevaLote->matricula  = $request->post("matricula");
         $CamionLlevaLote->id_lote = $request->post("id_lote");
-
         $CamionLlevaLote->save();
-
         return $CamionLlevaLote;
     }
+
+    public function comprobarValoresDelLote(Request $request){
+        $lote=Lote::where('id', $request->post("id_lote"))->first();
+        $camion=camiones::where('matricula',$request->post("matricula"))->first();
+        $volumenTotal=$this->obtenerVolumenTotal($camion,$lote);
+        $pesoTotal=$this->obtenerPesoTotal($camion,$lote);
+        if($volumenTotal>$camion['volumen_max_l']){
+            return false;
+        }
+        if($pesoTotal>$camion['peso_max_kg']){
+            return false;
+        }
+        return true;
+    }  
+
+    public function obtenerVolumenTotal($camion,$lote){
+        $volumenTotal= 0;
+        $lotesCamion=camion_Lleva_Lote::where('matricula',$camion)->get();
+        foreach($lotesCamion as $datoLote){
+            $loteEnCamion=lote::where('id',$datoLote->id_lote)->first();
+            $volumenTotal+=$loteEnCamion['volumen_l'];
+        }
+        $volumenTotal+=$lote['volumen_l'];
+        return $volumenTotal;
+    }
+
+    public function obtenerPesoTotal($camion,$lote){
+        $pesoTotal= 0;
+        $lotesCamion=camion_Lleva_Lote::where('matricula',$camion)->get();
+        foreach($lotesCamion as $datoLote){
+            $loteEnCamion=lote::where('id',$datoLote->id_lote)->first();
+            $pesoTotal+=$loteEnCamion['peso_kg'];
+        }
+        $pesoTotal+=$lote['peso_kg'];
+        return $pesoTotal;
+    }
+
 
     
     public function Eliminar(Request $request, $idLote)

@@ -120,7 +120,8 @@ class Paquete_Contiene_LoteController extends Controller
             'id_paquete' => $request->post('id_paquete'),
             'id_almacen' => $request->post('id_almacen'),
         ]);
-        return $Lote;
+        $datoLote=Paquete_Contiene_Lote::where('id_paquete', $id)->first();
+        return $datoLote;
     }
 
     public function restore($id)
